@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tea_cafe/Login/user_auth_page.dart';
 
 class LoginPage extends StatelessWidget {
   final List<Tab> myTabs = <Tab>[
@@ -22,17 +23,10 @@ class LoginPage extends StatelessWidget {
                     unselectedLabelColor: Colors.grey),
               ),
               Expanded(
-                child: TabBarView(
-                  children: myTabs.map((Tab tab) {
-                    final String label = tab.text.toLowerCase();
-                    return Center(
-                      child: Text(
-                        'This is the $label tab',
-                        style: const TextStyle(fontSize: 36),
-                      ),
-                    );
-                  }).toList(),
-                ),
+                child: TabBarView(children: [
+                  UserAuthPage(),
+                  UserAuthPage(),
+                ]),
               ),
             ],
           ),
