@@ -20,15 +20,14 @@ class CustomTextField extends StatelessWidget {
       child: Card(
         elevation: 2,
         child: TextField(
+          style: setTextStyle(color: primaryTextColor, size: 15),
           obscureText: obscureText,
           textAlignVertical: TextAlignVertical.center,
           cursorColor: primaryColor,
           decoration: InputDecoration(
             hintText: hintText,
             contentPadding: EdgeInsets.all(8),
-            hintStyle: setTextStyle(
-              color: primaryTextColor,
-            ),
+            hintStyle: setTextStyle(color: primaryTextColor, size: 15),
             prefixIcon: Icon(
               prefixIcon,
               color: Colors.black,

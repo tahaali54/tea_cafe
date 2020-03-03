@@ -23,12 +23,12 @@ class LoginPage extends StatelessWidget {
               Material(
                 elevation: 4,
                 child: TabBar(
-                    tabs: myTabs,
-                    indicatorColor: Colors.red,
-                    labelColor: Colors.red,
-                    labelStyle: setTextStyle(
-                        weight: FontWeight.w900, textScaleConstant: 6),
-                    unselectedLabelColor: Colors.grey),
+                  tabs: myTabs,
+                  indicatorColor: primaryColor,
+                  labelColor: primaryColor,
+                  unselectedLabelColor: Colors.grey,
+                  labelStyle: setTextStyle(size: 20.0, weight: FontWeight.w800),
+                ),
               ),
               Expanded(
                 child: TabBarView(children: [

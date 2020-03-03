@@ -15,9 +15,7 @@ class RegistrationPage extends StatelessWidget {
           child: Text(
             'Create an account',
             style: setTextStyle(
-                color: primaryColor,
-                weight: FontWeight.bold,
-                textScaleConstant: 4),
+                color: primaryColor, weight: FontWeight.bold, size: 18),
           ),
         ),
         CustomTextField(

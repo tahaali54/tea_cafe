@@ -17,7 +17,7 @@ class UserAuthPage extends StatelessWidget {
             style: setTextStyle(
                 color: primaryColor,
                 weight: FontWeight.bold,
-                textScaleConstant: 4),
+                size: 18),
           ),
         ),
         CustomTextField(
