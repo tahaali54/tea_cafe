@@ -22,7 +22,6 @@ TextStyle setTextStyle(
 class GlobalCache {
   GlobalCache._privateConstructor();
   static final GlobalCache instance = GlobalCache._privateConstructor();
-
-  int breathConfig = 4;
+  
   double fontSize = 14;
 }
