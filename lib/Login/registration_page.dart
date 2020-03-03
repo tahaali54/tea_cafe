@@ -4,7 +4,7 @@ import 'package:tea_cafe/Home/home_page.dart';
 
 import '../global.dart';
 
-class UserAuthPage extends StatelessWidget {
+class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -12,7 +12,7 @@ class UserAuthPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 32, bottom: 16),
           child: Text(
-            'Log in to your account',
+            'Create an account',
             style: setTextStyle(
                 color: primaryColor,
                 weight: FontWeight.bold,
@@ -24,19 +24,13 @@ class UserAuthPage extends StatelessWidget {
           prefixIcon: Icons.perm_identity,
         ),
         CustomTextField(
+          hintText: 'Email',
+          prefixIcon: Icons.mail_outline,
+        ),
+        CustomTextField(
           hintText: 'Password',
           prefixIcon: Icons.lock_outline,
           obscureText: true,
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: FlatButton(
-              onPressed: () {},
-              child: Text(
-                'Forgot Password?',
-                style:
-                    setTextStyle(color: primaryColor, weight: FontWeight.w500),
-              )),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 16, right: 16, top: 32),
@@ -49,7 +43,7 @@ class UserAuthPage extends StatelessWidget {
                     .push(MaterialPageRoute(builder: (context) => HomePage()));
               },
               child: Text(
-                'LOGIN',
+                'REGISTER',
                 style: setTextStyle(
                     color: secondaryColor, weight: FontWeight.w500),
               ),

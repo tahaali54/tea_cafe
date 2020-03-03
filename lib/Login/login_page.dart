@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tea_cafe/Login/user_auth_page.dart';
 
 import '../global.dart';
+import 'registration_page.dart';
 
 class LoginPage extends StatelessWidget {
   final List<Tab> myTabs = <Tab>[
@@ -25,13 +26,14 @@ class LoginPage extends StatelessWidget {
                     tabs: myTabs,
                     indicatorColor: Colors.red,
                     labelColor: Colors.red,
-                    labelStyle: setTextStyle(weight: FontWeight.bold, textScaleConstant: 6),
+                    labelStyle: setTextStyle(
+                        weight: FontWeight.w900, textScaleConstant: 6),
                     unselectedLabelColor: Colors.grey),
               ),
               Expanded(
                 child: TabBarView(children: [
                   UserAuthPage(),
-                  UserAuthPage(),
+                  RegistrationPage(),
                 ]),
               ),
             ],
