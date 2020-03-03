@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //Theme data
 final Color primaryColor = Colors.red;
 final Color secondaryColor = Colors.white;
+final Color primaryTextColor = Colors.black;
 
 final double titleFontSize = 24;
 
@@ -22,6 +23,6 @@ TextStyle setTextStyle(
 class GlobalCache {
   GlobalCache._privateConstructor();
   static final GlobalCache instance = GlobalCache._privateConstructor();
-  
+
   double fontSize = 14;
 }

@@ -27,7 +27,7 @@ class CustomTextField extends StatelessWidget {
             hintText: hintText,
             contentPadding: EdgeInsets.all(8),
             hintStyle: setTextStyle(
-              color: Colors.black,
+              color: primaryTextColor,
             ),
             prefixIcon: Icon(
               prefixIcon,
