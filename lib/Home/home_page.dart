@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tea_cafe/Favorites/favorites_page.dart';
+import 'package:tea_cafe/global.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -20,7 +21,12 @@ class HomePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(icon: Icon(Icons.home), onPressed: (){}),
+            IconButton(
+                icon: Icon(
+                  Icons.home,
+                  color: primaryColor,
+                ),
+                onPressed: () {}),
             Padding(
               padding: const EdgeInsets.only(right: 16),
               child: IconButton(
@@ -33,9 +39,9 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 16),
               child:
-                  IconButton(icon: Icon(Icons.shopping_cart), onPressed: null),
+                  IconButton(icon: Icon(Icons.shopping_cart), onPressed: () {}),
             ),
-            IconButton(icon: Icon(Icons.account_circle), onPressed: null)
+            IconButton(icon: Icon(Icons.account_circle), onPressed: () {})
           ],
         ),
       ),
