@@ -6,9 +6,7 @@ import 'registration_page.dart';
 
 class LoginPage extends StatelessWidget {
   final List<Tab> myTabs = <Tab>[
-    Tab(
-      text: 'Login',
-    ),
+    Tab(text: 'Login'),
     Tab(text: 'Register'),
   ];
   @override
@@ -21,6 +19,7 @@ class LoginPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Material(
+                color: secondaryColor,
                 elevation: 4,
                 child: TabBar(
                   tabs: myTabs,

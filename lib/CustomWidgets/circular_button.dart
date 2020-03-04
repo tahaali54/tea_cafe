@@ -8,7 +8,7 @@ class CircularButton extends StatelessWidget {
       this.bgColor = Colors.white})
       : super(key: key);
 
-  final Image icon;
+  final Widget icon;
   final void Function() onPressed;
   final Color bgColor;
 

@@ -15,9 +15,7 @@ class UserAuthPage extends StatelessWidget {
           child: Text(
             'Log in to your account',
             style: setTextStyle(
-                color: primaryColor,
-                weight: FontWeight.bold,
-                size: 18),
+                color: primaryColor, weight: FontWeight.bold, size: 18),
           ),
         ),
         CustomTextField(
@@ -46,8 +44,8 @@ class UserAuthPage extends StatelessWidget {
             height: 50,
             child: RaisedButton(
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => HomePage()));
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => HomePage()));
               },
               child: Text(
                 'LOGIN',
