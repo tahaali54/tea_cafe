@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tea_cafe/CustomWidgets/circular_button.dart';
+import 'package:tea_cafe/CustomWidgets/custom_scaffold.dart';
 import 'package:tea_cafe/global.dart';
-
-import '../custom_scaffold.dart';
 
 class FavoritesPage extends StatelessWidget {
   final List<Map> items = [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'CustomWidgets/custom_bottom_appbar.dart';
+import 'custom_bottom_appbar.dart';
 
 class CustomScaffold extends StatelessWidget {
   const CustomScaffold({

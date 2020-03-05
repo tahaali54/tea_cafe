@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../custom_scaffold.dart';
+import 'package:tea_cafe/CustomWidgets/custom_scaffold.dart';
 
 class HomePage extends StatelessWidget {
   @override
