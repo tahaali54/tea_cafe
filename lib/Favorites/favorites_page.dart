@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tea_cafe/CustomWidgets/circular_button.dart';
 import 'package:tea_cafe/CustomWidgets/custom_scaffold.dart';
@@ -21,6 +22,35 @@ class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> x = List();
+
+    return CustomScaffold(
+      index: 1,
+      title: 'Favorites',
+      body: ListView(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Text(
+              'Favorite Items',
+              style: setTextStyle(
+                  size: 23, color: primaryTextColor, weight: FontWeight.w800),
+            ),
+          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance.collection('favorites').snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return LinearProgressIndicator();
+
+              return _buildGridView(context, snapshot.data.documents, x);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGridView(
+      BuildContext context, List<DocumentSnapshot> documents, List<Widget> x) {
     List<Widget> getRatingRow() {
       List<Widget> row = List();
       for (int i = 0; i < 5; i++) {
@@ -42,7 +72,7 @@ class FavoritesPage extends StatelessWidget {
       return row;
     }
 
-    items.forEach((item) {
+    documents.forEach((item) {
       x.add(
         InkWell(
             onTap: () {},
@@ -54,7 +84,7 @@ class FavoritesPage extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.asset(
-                        item['img'],
+                        items.first['img'],
                         height: MediaQuery.of(context).size.height / 3.6,
                         width: MediaQuery.of(context).size.width / 2.2,
                         fit: BoxFit.cover,
@@ -92,33 +122,16 @@ class FavoritesPage extends StatelessWidget {
             )),
       );
     });
-
-    return CustomScaffold(
-      index: 1,
-      title: 'Favorites',
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Text(
-              'Favorite Items',
-              style: setTextStyle(
-                  size: 23, color: primaryTextColor, weight: FontWeight.w800),
-            ),
-          ),
-          GridView.count(
-            shrinkWrap: true,
-            primary: false,
-            padding: const EdgeInsets.all(8),
-            crossAxisSpacing: 8,
-            childAspectRatio: MediaQuery.of(context).size.width /
-                (MediaQuery.of(context).size.height / 1.25),
-            mainAxisSpacing: 8,
-            crossAxisCount: 2,
-            children: x,
-          ),
-        ],
-      ),
+    return GridView.count(
+      shrinkWrap: true,
+      primary: false,
+      padding: const EdgeInsets.all(8),
+      crossAxisSpacing: 8,
+      childAspectRatio: MediaQuery.of(context).size.width /
+          (MediaQuery.of(context).size.height / 1.25),
+      mainAxisSpacing: 8,
+      crossAxisCount: 2,
+      children: x,
     );
   }
 }
