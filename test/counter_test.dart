@@ -20,7 +20,7 @@ void main() {
     test('Should decrement value of counter by 1', () {
       Counter obj = Counter();
       obj.decrementCounter();
-      expect(obj.value, 0);
+      expect(obj.value, -1);
     });
   });
 }
