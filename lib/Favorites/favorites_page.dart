@@ -41,7 +41,8 @@ class FavoritesPage extends StatelessWidget {
             builder: (context, snapshot) {
               if (!snapshot.hasData) return LinearProgressIndicator();
 
-              return _buildGridView(context, snapshot.data.documents, gridItems);
+              return _buildGridView(
+                  context, snapshot.data.documents, gridItems);
             },
           ),
         ],
@@ -72,6 +73,8 @@ class FavoritesPage extends StatelessWidget {
       return row;
     }
 
+    int counter = 0;
+
     documents.forEach((item) {
       x.add(
         InkWell(
@@ -84,7 +87,7 @@ class FavoritesPage extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.asset(
-                        items.first['img'],
+                        items[counter]['img'],
                         height: MediaQuery.of(context).size.height / 3.6,
                         width: MediaQuery.of(context).size.width / 2.2,
                         fit: BoxFit.cover,
@@ -121,6 +124,7 @@ class FavoritesPage extends StatelessWidget {
               ],
             )),
       );
+      counter++;
     });
     return GridView.count(
       shrinkWrap: true,
