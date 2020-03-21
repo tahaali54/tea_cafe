@@ -21,7 +21,7 @@ class FavoritesPage extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    List<Widget> x = List();
+    List<Widget> gridItems = List();
 
     return CustomScaffold(
       index: 1,
@@ -41,7 +41,7 @@ class FavoritesPage extends StatelessWidget {
             builder: (context, snapshot) {
               if (!snapshot.hasData) return LinearProgressIndicator();
 
-              return _buildGridView(context, snapshot.data.documents, x);
+              return _buildGridView(context, snapshot.data.documents, gridItems);
             },
           ),
         ],
