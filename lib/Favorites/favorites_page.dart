@@ -10,25 +10,8 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
-  final List<Map> items = [
-    {"img": "assets/food1.jpeg", "name": "Fruit Salad"},
-    {"img": "assets/food2.jpeg", "name": "Fruit Salad"},
-    {"img": "assets/food3.jpeg", "name": "Hamburger"},
-    {"img": "assets/food4.jpeg", "name": "Fruit Salad"},
-    {"img": "assets/food5.jpeg", "name": "Hamburger"},
-    {"img": "assets/food6.jpeg", "name": "Steak"},
-    {"img": "assets/food7.jpeg", "name": "Pizza"},
-    {"img": "assets/food8.jpeg", "name": "Asparagus"},
-    {"img": "assets/food9.jpeg", "name": "Salad"},
-    {"img": "assets/food10.jpeg", "name": "Pizza"},
-    {"img": "assets/food11.jpeg", "name": "Pizza"},
-    {"img": "assets/food12.jpg", "name": "Salad"},
-  ];
-
   @override
   Widget build(BuildContext context) {
-    List<Widget> gridItems = List();
-
     return CustomScaffold(
       index: 1,
       title: 'Favorites',
@@ -47,8 +30,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) return LinearProgressIndicator();
 
-              return _buildGridView(
-                  context, snapshot.data.documents, gridItems);
+              return _buildGridView(context, snapshot.data.documents);
             },
           ),
         ],
@@ -56,8 +38,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
     );
   }
 
-  Widget _buildGridView(BuildContext context, List<DocumentSnapshot> documents,
-      List<Widget> gridItems) {
+  Widget _buildGridView(
+      BuildContext context, List<DocumentSnapshot> documents) {
+    List<Widget> gridItems = List();
     List<Widget> getRatingRow() {
       List<Widget> row = List();
       for (int i = 0; i < 5; i++) {
@@ -78,8 +61,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
       );
       return row;
     }
-
-    int counter = 0;
 
     documents.forEach((item) {
       gridItems.add(
@@ -130,7 +111,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
               ],
             )),
       );
-      counter++;
     });
 
     return GridView.count(
