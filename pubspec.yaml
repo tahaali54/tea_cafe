@@ -24,10 +24,19 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   cloud_firestore: ^0.13.4+2
+  flutter_launcher_icons: ^0.7.4
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: "launcher_icon" 
+  ios: false
+  image_path: "assets/icon/tea_cup.png"
+
+
 
 
 # For information on the generic Dart part of this file, see the
