@@ -4,7 +4,12 @@ import 'package:tea_cafe/CustomWidgets/circular_button.dart';
 import 'package:tea_cafe/CustomWidgets/custom_scaffold.dart';
 import 'package:tea_cafe/global.dart';
 
-class FavoritesPage extends StatelessWidget {
+class FavoritesPage extends StatefulWidget {
+  @override
+  _FavoritesPageState createState() => _FavoritesPageState();
+}
+
+class _FavoritesPageState extends State<FavoritesPage> {
   final List<Map> items = [
     {"img": "assets/food1.jpeg", "name": "Fruit Salad"},
     {"img": "assets/food2.jpeg", "name": "Fruit Salad"},
@@ -19,6 +24,7 @@ class FavoritesPage extends StatelessWidget {
     {"img": "assets/food11.jpeg", "name": "Pizza"},
     {"img": "assets/food12.jpg", "name": "Salad"},
   ];
+
   @override
   Widget build(BuildContext context) {
     List<Widget> gridItems = List();
@@ -50,8 +56,8 @@ class FavoritesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildGridView(
-      BuildContext context, List<DocumentSnapshot> documents, List<Widget> x) {
+  Widget _buildGridView(BuildContext context, List<DocumentSnapshot> documents,
+      List<Widget> gridItems) {
     List<Widget> getRatingRow() {
       List<Widget> row = List();
       for (int i = 0; i < 5; i++) {
@@ -76,7 +82,7 @@ class FavoritesPage extends StatelessWidget {
     int counter = 0;
 
     documents.forEach((item) {
-      x.add(
+      gridItems.add(
         InkWell(
             onTap: () {},
             child: Column(
@@ -87,7 +93,7 @@ class FavoritesPage extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.asset(
-                        items[counter]['img'],
+                        "assets/${item['imageName']}",
                         height: MediaQuery.of(context).size.height / 3.6,
                         width: MediaQuery.of(context).size.width / 2.2,
                         fit: BoxFit.cover,
@@ -126,6 +132,7 @@ class FavoritesPage extends StatelessWidget {
       );
       counter++;
     });
+
     return GridView.count(
       shrinkWrap: true,
       primary: false,
@@ -135,7 +142,7 @@ class FavoritesPage extends StatelessWidget {
           (MediaQuery.of(context).size.height / 1.25),
       mainAxisSpacing: 8,
       crossAxisCount: 2,
-      children: x,
+      children: gridItems,
     );
   }
 }
