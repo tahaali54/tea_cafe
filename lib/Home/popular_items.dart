@@ -12,26 +12,15 @@ class PopularItems extends StatefulWidget {
 }
 
 class _PopularItemsState extends State<PopularItems> {
-  final List<Map> items = [
-    {"img": "assets/food1.jpeg", "name": "Fruit Salad"},
-    {"img": "assets/food2.jpeg", "name": "Fruit Salad"},
-    {"img": "assets/food3.jpeg", "name": "Hamburger"},
-    {"img": "assets/food4.jpeg", "name": "Fruit Salad"},
-    {"img": "assets/food5.jpeg", "name": "Hamburger"},
-    {"img": "assets/food6.jpeg", "name": "Steak"},
-    {"img": "assets/food7.jpeg", "name": "Pizza"},
-    {"img": "assets/food8.jpeg", "name": "Asparagus"},
-    {"img": "assets/food9.jpeg", "name": "Salad"},
-    {"img": "assets/food10.jpeg", "name": "Pizza"},
-    {"img": "assets/food11.jpeg", "name": "Pizza"},
-    {"img": "assets/food12.jpg", "name": "Salad"},
-  ];
-
   List<DishesModel> _dishes = List<DishesModel>();
 
   bool _isloading = true;
 
   Future<List<DishesModel>> fetchDishes() async {
+    setState(() {
+      _isloading = true;
+    });
+
     final _response = await http.get(Urls.baseUrl + Urls.menu);
     if (_response.statusCode == 200) {
       var tagsJson = jsonDecode(_response.body) as List;
@@ -80,15 +69,9 @@ class _PopularItemsState extends State<PopularItems> {
                 ))
           ],
         ),
-        // StreamBuilder<QuerySnapshot>(
-        //   stream: Firestore.instance.collection('popular_items').snapshots(),
-        //   builder: (context, snapshot) {
-        //     if (!snapshot.hasData) return LinearProgressIndicator();
-
-        //     return _buildGridView(context, snapshot.data.documents, gridItems);
-        //   },
-        // ),
-        GridViewWidget(context: context, documents: _dishes, x: gridItems)
+        _isloading
+            ? LinearProgressIndicator()
+            : GridViewWidget(context: context, documents: _dishes, x: gridItems)
       ],
     );
   }
@@ -128,8 +111,6 @@ class GridViewWidget extends StatelessWidget {
       );
       return row;
     }
-
-    int counter = 0;
 
     documents.forEach((item) {
       x.add(
@@ -180,7 +161,6 @@ class GridViewWidget extends StatelessWidget {
               ],
             )),
       );
-      counter++;
     });
     return GridView.count(
       shrinkWrap: true,

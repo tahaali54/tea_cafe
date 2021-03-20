@@ -25,7 +25,7 @@ class TeaCafe extends StatelessWidget {
           brightness: Brightness.light,
           elevation: 0,
           textTheme: TextTheme(
-            title: TextStyle(
+            headline6: TextStyle(
               color: primaryTextColor,
               fontSize: 18.0,
               fontWeight: FontWeight.w800,
