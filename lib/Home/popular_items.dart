@@ -1,11 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tea_cafe/CustomWidgets/circular_button.dart';
-import 'package:tea_cafe/CustomWidgets/custom_scaffold.dart';
+import 'package:tea_cafe/Favorites/favorites_page.dart';
 
 import '../global.dart';
+import 'package:http/http.dart' as http;
 
-class PopularItems extends StatelessWidget {
+class PopularItems extends StatefulWidget {
+  @override
+  _PopularItemsState createState() => _PopularItemsState();
+}
+
+class _PopularItemsState extends State<PopularItems> {
   final List<Map> items = [
     {"img": "assets/food1.jpeg", "name": "Fruit Salad"},
     {"img": "assets/food2.jpeg", "name": "Fruit Salad"},
@@ -20,6 +26,34 @@ class PopularItems extends StatelessWidget {
     {"img": "assets/food11.jpeg", "name": "Pizza"},
     {"img": "assets/food12.jpg", "name": "Salad"},
   ];
+
+  List<DishesModel> _dishes = List<DishesModel>();
+
+  bool _isloading = true;
+
+  Future<List<DishesModel>> fetchDishes() async {
+    final _response = await http.get(Urls.baseUrl + Urls.menu);
+    if (_response.statusCode == 200) {
+      var tagsJson = jsonDecode(_response.body) as List;
+      _dishes = tagsJson.map((e) => DishesModel.fromJson(e)).toList();
+      setState(() {
+        _isloading = false;
+      });
+      return _dishes;
+    } else {
+      setState(() {
+        _isloading = false;
+      });
+      throw Exception('Failed to load menu');
+    }
+  }
+
+  @override
+  void initState() {
+    fetchDishes();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> gridItems = List();
@@ -46,20 +80,34 @@ class PopularItems extends StatelessWidget {
                 ))
           ],
         ),
-        StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection('popular_items').snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return LinearProgressIndicator();
+        // StreamBuilder<QuerySnapshot>(
+        //   stream: Firestore.instance.collection('popular_items').snapshots(),
+        //   builder: (context, snapshot) {
+        //     if (!snapshot.hasData) return LinearProgressIndicator();
 
-            return _buildGridView(context, snapshot.data.documents, gridItems);
-          },
-        ),
+        //     return _buildGridView(context, snapshot.data.documents, gridItems);
+        //   },
+        // ),
+        GridViewWidget(context: context, documents: _dishes, x: gridItems)
       ],
     );
   }
+}
 
-  Widget _buildGridView(
-      BuildContext context, List<DocumentSnapshot> documents, List<Widget> x) {
+class GridViewWidget extends StatelessWidget {
+  const GridViewWidget({
+    Key key,
+    @required this.context,
+    @required this.documents,
+    @required this.x,
+  }) : super(key: key);
+
+  final BuildContext context;
+  final List<DishesModel> documents;
+  final List<Widget> x;
+
+  @override
+  Widget build(BuildContext context) {
     List<Widget> getRatingRow() {
       List<Widget> row = List();
       for (int i = 0; i < 5; i++) {
@@ -94,8 +142,8 @@ class PopularItems extends StatelessWidget {
                   children: <Widget>[
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.asset(
-                        items[counter]['img'],
+                      child: Image.network(
+                        item.imageUrl,
                         height: MediaQuery.of(context).size.height / 3.6,
                         width: MediaQuery.of(context).size.width / 2.2,
                         fit: BoxFit.cover,
@@ -119,7 +167,7 @@ class PopularItems extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 2),
                   child: Text(
-                    item['name'],
+                    item.name,
                     style: setTextStyle(
                         size: 20,
                         weight: FontWeight.w900,

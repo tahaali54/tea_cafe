@@ -19,6 +19,7 @@ class CustomScaffold extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(title),
+        leading: Container(),
       ),
       body: body,
       floatingActionButton: FloatingActionButton(

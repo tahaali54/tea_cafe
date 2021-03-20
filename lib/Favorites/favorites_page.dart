@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:tea_cafe/CustomWidgets/circular_button.dart';
 import 'package:tea_cafe/CustomWidgets/custom_scaffold.dart';
+import 'package:tea_cafe/Home/popular_items.dart';
 import 'package:tea_cafe/global.dart';
+import 'package:http/http.dart' as http;
 
 class FavoritesPage extends StatefulWidget {
   @override
@@ -10,119 +11,88 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
+  List<DishesModel> _dishes = List<DishesModel>();
+
+  bool _isloading = true;
+  Future<List<DishesModel>> fetchDishes() async {
+    final _response = await http.get(Urls.baseUrl+Urls.favoriteList);
+    if (_response.statusCode == 200) {
+      var tagsJson = jsonDecode(_response.body) as List;
+      _dishes = tagsJson.map((e) => DishesModel.fromJson(e)).toList();
+      setState(() {
+        _isloading = false;
+      });
+      return _dishes;
+    } else {
+      setState(() {
+        _isloading = false;
+      });
+      throw Exception('Failed to load menu');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDishes();
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       index: 1,
       title: 'Favorites',
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Text(
-              'Favorite Items',
-              style: setTextStyle(
-                  size: 23, color: primaryTextColor, weight: FontWeight.w800),
-            ),
-          ),
-          StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection('favorites').snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return LinearProgressIndicator();
-
-              return _buildGridView(context, snapshot.data.documents);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildGridView(
-      BuildContext context, List<DocumentSnapshot> documents) {
-    List<Widget> gridItems = List();
-    List<Widget> getRatingRow() {
-      List<Widget> row = List();
-      for (int i = 0; i < 5; i++) {
-        row.add(Icon(
-          Icons.star,
-          color: Colors.orangeAccent,
-          size: 11,
-        ));
-      }
-      row.add(Container(
-        width: 8,
-      ));
-      row.add(
-        Text(
-          '5.0 (23 Reviews)',
-          style: setTextStyle(size: 11, color: primaryTextColor),
-        ),
-      );
-      return row;
-    }
-
-    documents.forEach((item) {
-      gridItems.add(
-        InkWell(
-            onTap: () {},
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: !_isloading
+          ? ListView(
               children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.asset(
-                        "assets/${item['imageName']}",
-                        height: MediaQuery.of(context).size.height / 3.6,
-                        width: MediaQuery.of(context).size.width / 2.2,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned(
-                      height: 30,
-                      width: 30,
-                      right: 8.0,
-                      bottom: 8.0,
-                      child: CircularButton(
-                          icon: Icon(
-                            Icons.favorite,
-                            color: primaryColor,
-                            size: 15,
-                          ),
-                          onPressed: () {}),
-                    )
-                  ],
-                ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8, bottom: 2),
+                  padding: const EdgeInsets.only(left: 8),
                   child: Text(
-                    item['name'],
+                    'Favorite Items',
                     style: setTextStyle(
-                        size: 20,
-                        weight: FontWeight.w900,
-                        color: primaryTextColor),
+                        size: 23,
+                        color: primaryTextColor,
+                        weight: FontWeight.w800),
                   ),
                 ),
-                Row(
-                  children: getRatingRow(),
-                ),
+                GridViewWidget(
+                  context: context,
+                  documents: _dishes,
+                  x: [],
+                  key: widget.key,
+                )
               ],
-            )),
-      );
-    });
-
-    return GridView.count(
-      shrinkWrap: true,
-      primary: false,
-      padding: const EdgeInsets.all(8),
-      crossAxisSpacing: 8,
-      childAspectRatio: MediaQuery.of(context).size.width /
-          (MediaQuery.of(context).size.height / 1.25),
-      mainAxisSpacing: 8,
-      crossAxisCount: 2,
-      children: gridItems,
+            )
+          : Text("Loading..."),
     );
   }
+}
+
+class DishesModel {
+  final String id;
+  final String name;
+  final String imageUrl;
+  final bool isFav;
+  final String rating;
+
+  DishesModel({this.imageUrl, this.id, this.isFav, this.name, this.rating});
+
+  factory DishesModel.fromJson(dynamic json) {
+    return DishesModel(
+        name: json['name'],
+        id: json['id'],
+        imageUrl: json['imageUrl'],
+        rating: json['rating'],
+        isFav: json['isFav'] == "1" ? true : false);
+  }
+}
+
+abstract class Urls {
+ static final  baseUrl = 'http://192.168.100.4:8888/';
+
+ static final menu = 'menu';
+
+ static final favoriteList = 'favourite';
+
+ static final setList = 'menu';
 }
