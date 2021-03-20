@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:tea_cafe/CustomWidgets/custom_scaffold.dart';
 import 'package:tea_cafe/Home/popular_items.dart';
@@ -15,7 +16,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
   bool _isloading = true;
   Future<List<DishesModel>> fetchDishes() async {
-    final _response = await http.get(Urls.baseUrl+Urls.favoriteList);
+    final _response = await http.get(Urls.baseUrl + Urls.favoriteList);
     if (_response.statusCode == 200) {
       var tagsJson = jsonDecode(_response.body) as List;
       _dishes = tagsJson.map((e) => DishesModel.fromJson(e)).toList();
@@ -88,11 +89,13 @@ class DishesModel {
 }
 
 abstract class Urls {
- static final  baseUrl = 'http://192.168.100.4:8888/';
+  static final baseUrl = Platform.isAndroid
+      ? 'http://192.168.43.232:8888/'
+      : 'http://localhost:8888/';
 
- static final menu = 'menu';
+  static final menu = 'menu';
 
- static final favoriteList = 'favourite';
+  static final favoriteList = 'favourite';
 
- static final setList = 'menu';
+  static final setList = 'menu';
 }
