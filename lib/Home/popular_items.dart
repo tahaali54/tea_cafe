@@ -137,7 +137,7 @@ class GridViewWidget extends StatelessWidget {
                       bottom: 8.0,
                       child: CircularButton(
                           icon: Icon(
-                            Icons.favorite_border,
+                            item.isFav ? Icons.favorite : Icons.favorite_border,
                             color: primaryColor,
                             size: 15,
                           ),
